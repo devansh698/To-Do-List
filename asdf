@@ -1,1 +1,190 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Weather Application</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
+  </head>
+  <body>
+    <div class="card">
+      <h1 class="title">Check City Weather</h1>
+      <div class="search">
+        <input type="text" placeholder="Enter city name" spellcheck="false">
+        <button><img src="images/search.png"></button>
+      </div>
+      <div class="error">
+        <p>Invalid city name</p>
+      </div>
+      <div class="weather">
+        <div class="lottie-animation" id="weather-animation"></div>
+        <h1 class="temp">20°C</h1>
+        <h2 class="city">New York</h2>
+        <p class="weather-description">Clear Sky</p>
+        <div class="details">
+          <div class="col">
+            <img src="images/humidity.png" alt="humidity icon">
+            <div>
+              <p class="humidity">50%</p>
+              <p>Humidity</p>
+            </div>
+          </div>
+          <div class="col">
+            <img src="images/wind.png" alt="wind icon">
+            <div>
+              <p class="wind">15 KM/H</p>
+              <p>Wind Speed</p>
+            </div>
+          </div>
+          
+        </div>
+        
+        <div class="sunrise-sunset">
+          <div>
+            <img src="images/sunrise-img.png" alt="sunrise icon">
+            <span class="sunrise">06:00 AM</span>
+          </div>
+          <div>
+            <img src="images/sunset-png.png" alt="sunset icon">
+            <span class="sunset">06:00 PM</span>
+          </div>
+        </div>
+        <div class="sunrise-sunset">
+          <div class="col">
+            <img src="images/winddirection.webp" alt="wind direction icon" class="wind-direction-icon">
+            <div>
+              <p class="wind-direction">NE</p>
+              <p>Wind Direction</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="loading-spinner"></div>
+      <div class="forecast">
+        <h3>3-Day Forecast</h3>
+        <div class="day">
+          <span>Monday</span>
+          <img src="images/clouds.png" alt="weather icon">
+          <div class="details">
+            <span class="temp">18°C</span>
+            <span>Humidity: 60%</span>
+            <span>Wind: 10 km/h</span>
+          </div>
+        </div>
+        <div class="day">
+          <span>Tuesday</span>
+          <img src="images/clear.png" alt="weather icon">
+          <div class="details">
+            <span class="temp">22°C</span>
+            <span>Humidity: 50%</span>
+            <span>Wind: 12 km/h</span>
+          </div>
+        </div>
+        <div class="day">
+          <span>Wednesday</span>
+          <img src="images/rain.png" alt="weather icon">
+          <div class="details">
+            <span class="temp">16°C</span>
+            <span>Humidity: 70%</span>
+            <span>Wind: 15 km/h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const apiKey = "312abfd953c970ceaf81f671079f6e22";
+      const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+      const forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?units=metric&q=";
+      const searchBox = document.querySelector(".search input");
+      const searchBtn = document.querySelector(".search button");
+      const weatherIcon = document.querySelector(".weather-icon");
+      const loadingSpinner = document.querySelector(".loading-spinner");
+      const forecastSection = document.querySelector(".forecast");
+      const weatherAnimation = document.getElementById('weather-animation');
+
+      async function checkWeather(city){
+        loadingSpinner.style.display = "block";
+        forecastSection.classList.remove("show");
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+        
+        if(response.status == 404){
+          document.querySelector(".error").style.display = "block";
+          document.querySelector(".weather").style.display = "none";
+          loadingSpinner.style.display = "none";
+        }else{
+          var data = await response.json();
+          document.querySelector(".city").innerHTML = data.name;
+          document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+          document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+          document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+          document.querySelector(".weather-description").innerHTML = data.weather[0].description;
+          document.querySelector(".sunrise").innerHTML = new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+          document.querySelector(".sunset").innerHTML = new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+          document.querySelector(".wind-direction").innerHTML = data.wind.deg + "°";
+          document.querySelector(".wind-direction-icon").style.transform = `rotate(${data.wind.deg}deg)`;
+        
+          let animationPath;
+          if(data.weather[0].main == "Clouds")
+          {
+            animationPath = 'images/clouds.json';
+          }
+          else if(data.weather[0].main == "Clear"){
+            animationPath = "images/clear.json";
+          }
+          else if(data.weather[0].main == "Rain"){
+            animationPath = "images/rain.json";
+          }
+          else if(data.weather[0].main == "Drizzle"){
+            animationPath = "images/drizzle.json";
+          }
+          else if(data.weather[0].main == "Mist"){
+            animationPath = "images/mist.json";
+          }
+          else if(data.weather[0].main == "Snow"){
+            animationPath = 'images/snow.json';
+          }
+          else{
+            animationPath = "images/rain.json";
+          }
+
+          lottie.loadAnimation({
+            container: weatherAnimation,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: animationPath
+          });
+
+          document.querySelector(".weather").style.display = "block";
+          document.querySelector(".error").style.display = "none"; 
+          loadingSpinner.style.display = "none";
+          getForecast(city);
+        }
+      }
+
+      async function getForecast(city) {
+        const response = await fetch(forecastUrl + city + `&appid=${apiKey}`);
+        const data = await response.json();
+        const forecastElements = document.querySelectorAll(".forecast .day");
+        
+        for (let i = 0; i < 3; i++) {
+          const dayData = data.list[i * 8]; // 3-hour intervals, 8 intervals per day
+          const dayElement = forecastElements[i];
+          dayElement.querySelector("span").innerText = new Date(dayData.dt_txt).toLocaleDateString('en-US', { weekday: 'long' });
+          dayElement.querySelector("img").src = `images/${dayData.weather[0].main.toLowerCase()}.png`;
+          dayElement.querySelector(".temp").innerText = Math.round(dayData.main.temp) + "°C";
+          dayElement.querySelector(".details span:nth-child(2)").innerText = `Humidity: ${dayData.main.humidity}%`;
+          dayElement.querySelector(".details span:nth-child(3)").innerText = `Wind: ${dayData.wind.speed} km/h`;
+        }
+        forecastSection.classList.add("show");
+      }
+
+      searchBtn.addEventListener("click", ()=>{
+        checkWeather(searchBox.value);
+      })
+    </script>
+  </body>
+</html>
+
+
