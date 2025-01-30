@@ -1,0 +1,412 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* #363532, rgb(88, 111, 112) */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Work Sans', sans-serif;
+    min-height: 100vh;
+    padding-top: 3%;
+}
+
+/* Body light or darker themes */
+.blue {
+    background-image: linear-gradient(100deg, #4e9fdc, #d4f1ff);
+    color: #050505;
+}
+
+.pink {
+    background-image: linear-gradient(100deg, #ffe4ec, #ffd0f0);
+    color: #2b0e1f;
+}
+
+.green {
+    background-image: linear-gradient(100deg, #cfe8dc, #9fdcc2);
+    color: #0f2913;
+}
+
+#header, #form, #datetime {
+    margin: 0 1rem;
+    min-height: 10vh;
+    width: 100%;
+}
+
+#header {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 3rem;
+    min-height: 25vh;
+    width: 100%;
+}
+
+/* Theme buttons div */
+.flexrow-container {
+    align-items: center;
+    align-self: flex-end;
+    display: flex;
+    justify-content: space-around; /* Adjust this if needed */
+    margin-right: 3%;
+}
+
+.theme-selector {
+    border: 1px solid #d1dae3;
+    border-radius: 100%;
+    height: 35px;
+    margin: 0 8px;
+    transition: transform 150ms ease-in-out, box-shadow 200ms ease-in-out;
+    width: 35px;
+}
+
+.theme-selector:hover { 
+    box-shadow: white 0 0 8px;
+    cursor: pointer;
+}
+
+.theme-selector:active {
+    transform: scale(0.95);
+}
+
+.blue-theme {
+    background-image: linear-gradient(100deg, #4e9fdc, #d4f1ff);
+}
+
+.pink-theme {
+    background-image: linear-gradient(100deg, #ffe4ec, #ffd0f0);
+}
+
+.green-theme {
+    background-image: linear-gradient(100deg, #cfe8dc, #9fdcc2);
+}
+
+/* Animation */
+#title {
+    border-right: solid 3px rgba(0, 0, 0, 0.75);
+    white-space: pre;
+    overflow: hidden;     
+    letter-spacing: 0.20rem;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    max-width: 480px;
+}
+
+#title {
+    animation: animated-text 2s steps(11,end) 0.5s 1 normal both,
+        animated-cursor 750ms steps(11,end) infinite;
+}
+
+#title.darker-title {
+    animation: animated-text 2s steps(11,end) 0.5s 1 normal both, darker-animated-cursor 750ms steps(11,end) infinite;
+}
+
+/* text animation */
+@keyframes animated-text {
+    from { width: 0%; }
+    to { width: 480px; }
+}
+
+/* cursor animations */
+@keyframes animated-cursor {
+    from { border-right-color: rgba(0, 0, 0, 0.75); }
+    to { border-right-color: transparent; }
+}
+
+@keyframes darker-animated-cursor {
+    from { border-right-color: #01394c; }
+    to { border-right-color: transparent; }
+}
+
+form {
+    display: flex;
+    font-size: 1.7rem;
+    justify-content: center;
+    margin: 15px 0;
+    padding: 0.8rem;
+    width: 100%;
+}
+
+form input {
+    padding: 10px;
+    font-size: 17px;
+    border: none;
+    outline: none;
+    border-top-left-radius: 17px;
+    border-bottom-left-radius: 17px;
+    max-width: 500px;
+    transition: background-color 200ms ease-in-out;
+    width: 100%;
+}
+
+/* Input themes */
+form input.blue-input {
+    background-color: #9ccbef;
+    color: #050505;
+}
+
+form input.pink-input {
+    background-color: #ffc4df;
+    color: #2b0e1f;
+}
+
+form input.pink-input::placeholder {
+    color: #2b0e1f;
+    opacity: 0.7;
+}
+
+form input.green-input {
+    background-color: #a1d4b8;
+    color: #0f2913;
+}
+
+form input.green-input::placeholder {
+    color: #0f2913;
+    opacity: 0.7;
+}
+
+form input:hover {
+    cursor: text;
+}
+
+form input.blue-input:hover {
+    background-color: #7fb3e0;
+}
+
+form input.pink-input:hover {
+    background-color: #ffb3d1;
+}
+
+form input.green-input:hover {
+    background-color: #8fc9a8;
+}
+
+button {
+    border: none;
+    outline: none; 
+    transition: box-shadow 200ms ease, background-color 200ms ease-in-out;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+/* Button themes */
+button.blue-button {
+    background-color: #f0faff;
+    color: #3f3f3f;
+}
+
+button.blue-button:hover {
+    background-color: #e0f4ff;
+    box-shadow: #d0f0ff 0 0 10px;
+}
+
+button.pink-button {
+    background-color: #ffeaf7;
+    color: #2b0e1f;
+}
+
+button.pink-button:hover {
+    background-color: #ffd8ef;
+}
+
+button.green-button {
+    background-color: #d2f0e4;
+    color: #0f2913;
+}
+
+button.green-button:hover {
+    background-color: #c2e8d4;
+}
+
+form button {
+    padding: 10px;
+    font-size: 17px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    min-width: 100px;
+}
+
+#search-container {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 17px;
+    border-radius: 17px;
+    border: none;
+    outline: none;
+    max-width: 500px;
+    width: 80%;
+    transition: background-color 200ms ease-in-out;
+}
+
+#myUnOrdList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin-top: 2rem;
+    padding: 0 1rem;
+}
+
+.todo-list {
+    min-width: 25%;
+    list-style: none;
+    padding: 1rem 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+.todo {
+    margin: 1rem;
+    font-size: 19px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25em 0.5em;
+    border-radius: 30px;
+    transition: background-color 200ms ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.todo:hover {
+    transform: translateY(-3px);
+}
+
+/* Items themes */
+.blue-todo {
+    background-color: #d4f1ff;
+}
+
+.pink-todo {
+    background-color: #ffd0f0;
+}
+
+.green-todo {
+    background-color: #9fdcc2;
+}
+
+.todo li {
+    padding: 7px;
+    font-size: 20px;
+    flex: 1; /* To push the trash and the check button to the right */
+    border-radius: 30px;
+    overflow-wrap: anywhere;
+}
+
+.check-btn, .delete-btn {
+    font-size: 19px;
+    cursor: pointer;
+    width: 2em;
+    height: 2em;
+    border-radius: 80%;
+    margin: 0 5px;
+}
+
+.todo-item {
+    padding: 0rem 0.5rem;
+}
+
+.fa-trash, .fa-check { 
+    pointer-events: none;
+}
+
+.completed {
+    transition: 0.2s;
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.fall {
+    transition: 0.5s;
+    transform: translateY(45rem) rotateZ(45deg);
+    opacity: 0;
+}
+
+/* Responsive design */
+@media only screen and (max-width: 1000px) {
+    .flexrow-container {
+        align-self: unset;
+        margin-right: 0;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    #header {
+        font-size: 2rem;
+    }
+
+    #title {
+        animation: 
+            animated-text 3s steps(16,end) 0.5s 1 normal both,
+            animated-cursor 750ms steps(16,end) infinite;
+        margin-bottom: 10px;
+        margin-top: 30px;
+        max-width: 330px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    #header {
+        font-size: 1.5rem;
+    }
+
+    #title {
+        animation: 
+            animated-text 3.5s steps(16,end) 0.5s 1 normal both,
+            animated-cursor 750ms steps(16,end) infinite;
+        max-width: 255px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    form {
+        align-items: center;
+        flex-direction: column;
+    }
+
+    form input {
+        border-radius: 17px;
+    }
+
+    form button {
+        border-radius: 15px;
+        margin-top: 15px;
+        width: 50%;
+    }
+    form > button.light-button {
+        box-shadow: 0 0 5px lightgray;
+    }
+}
+
+/* Fade-in animation */
+.fade-in-animation {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Fade-in animation for new tasks */
+.fade-in {
+    animation: fadeInTask 0.6s ease-in-out;
+}
+
+@keyframes fadeInTask {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+}
